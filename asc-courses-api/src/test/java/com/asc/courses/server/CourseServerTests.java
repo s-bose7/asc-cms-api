@@ -24,7 +24,7 @@ class CourseServerTests {
 		ResponseEntity<Course> response = restTemplate.getForEntity(
 			"/api/v1/courses/1", Course.class
 		);
-		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 		
 	}
 

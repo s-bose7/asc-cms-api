@@ -12,6 +12,10 @@ jobs:
   build:
     name: Build and Test
     runs-on: ubuntu-latest
+    env:
+      DB_DATABASE: test_db
+      DB_USER: root
+      DB_PASSWORD: root
 
     steps:
       - name: Checkout Code
@@ -36,12 +40,10 @@ jobs:
       - name: Print Working Directory
         run: pwd
       
-      - name: Setup MySQL
-        uses: marketplaces/mysql-action@v1
-        with:
-          version: '5.7'
-          password: ${{ secrets.MYSQL_PASSWORD }}
-          database: testdbcourses
+      - name: Start MySQL
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -e "CREATE DATABASE IF NOT EXISTS $DB_DATABASE;" -u$DB_USER -p$DB_PASSWORD
 
       - name: Build with Gradle
         run: ./gradlew build --no-daemon
