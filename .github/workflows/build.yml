@@ -35,7 +35,14 @@ jobs:
 
       - name: Print Working Directory
         run: pwd
-        
+      
+      - name: Setup MySQL
+        uses: marketplaces/mysql-action@v1
+        with:
+          version: '5.7'
+          password: ${{ secrets.MYSQL_PASSWORD }}
+          database: testdbcourses
+
       - name: Build with Gradle
         run: ./gradlew build --no-daemon
         working-directory: ./asc-courses-api
