@@ -33,28 +33,34 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Move into project dir
-        run: cd asc-courses-api
+      - name: Print Working Directory
+        run: pwd
+
+      - name: List Files
+        run: ls -la ./asc-courses-api
 
       - name: Build with Gradle
         run: ./gradlew build --no-daemon
+        working-directory: ./asc-courses-api
 
       - name: Run Unit Tests
         run: ./gradlew test --no-daemon
+        working-directory: ./asc-courses-api
 
       - name: Check Code Quality
         run: ./gradlew check --no-daemon
+        working-directory: ./asc-courses-api
 
       - name: Upload Test Results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-results
-          path: build/reports/tests/test/
+          path: ./asc-courses-api/build/reports/tests/test/
 
       - name: Upload Test Coverage Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-coverage-report
-          path: build/reports/jacoco/test/html/
+          path: ./asc-courses-api/build/reports/jacoco/test/html/
