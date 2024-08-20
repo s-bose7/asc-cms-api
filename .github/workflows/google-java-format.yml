@@ -13,7 +13,6 @@ env:
 jobs:
   format:
     name: java-format-check
-    if: github.repository == 's-bose7/open-banking-suite'
     runs-on: ubuntu-latest
     steps:
       - name: Set up JDK 11
