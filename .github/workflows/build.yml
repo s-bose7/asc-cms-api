@@ -12,10 +12,19 @@ jobs:
   build:
     name: Build and Test
     runs-on: ubuntu-latest
-    env:
-      DB_DATABASE: test_db
-      DB_USER: root
-      DB_PASSWORD: root
+    services:
+      db:
+        image: mysql:latest
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: testdb
+        options: >-
+          --health-cmd "mysqladmin ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - name: Checkout Code
@@ -40,10 +49,8 @@ jobs:
       - name: Print Working Directory
         run: pwd
       
-      - name: Start MySQL
-        run: |
-          sudo /etc/init.d/mysql start
-          mysql -e "CREATE DATABASE IF NOT EXISTS $DB_DATABASE;" -u$DB_USER -p$DB_PASSWORD
+      - name: Show Docker containers
+        run: docker ps -a
 
       - name: Build with Gradle
         run: ./gradlew build --no-daemon
