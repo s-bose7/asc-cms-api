@@ -33,6 +33,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
+      - name: Move into project dir
+        run: cd asc-courses-api
+
       - name: Build with Gradle
         run: ./gradlew build --no-daemon
 
