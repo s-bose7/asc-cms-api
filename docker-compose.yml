@@ -6,15 +6,15 @@ services:
       file: docker/compose/mysql.yml
       service: mysql
 
-  backend:
+  server:
     extends:
       file: docker/compose/server.yml
-      service: backend
+      service: server
 
-  frontend:
+  client:
     extends: 
       file: docker/compose/client.yml
-      service: frontend
+      service: client
 
 volumes:
   mysql_data:
