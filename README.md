@@ -39,10 +39,11 @@ $ docker compose up -d
 Once all the containers are up and running, visit `http://localhost:5173`. This will take you to the web client.
 
 # Example Requests
+The payload is case sensitive, so please double-check the payload before sending a request.
 
 #### Creating a Course
 
-```json
+```c
 curl -X POST http://localhost:8080/api/v1/courses \
 -header "Content-Type: application/json" \
 -data '{
@@ -54,7 +55,7 @@ curl -X POST http://localhost:8080/api/v1/courses \
 ```
 
 #### Creating a Course instance
-```json
+```c
 curl -X POST http://localhost:8080/api/v1/instances \
 -header "Content-Type: application/json" \
 -data '{
