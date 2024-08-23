@@ -54,15 +54,12 @@ jobs:
 
       - name: Build with Gradle
         run: ./gradlew build --no-daemon
-        working-directory: ./asc-courses-api
 
       - name: Run Unit Tests
         run: ./gradlew test --no-daemon
-        working-directory: ./asc-courses-api
 
       - name: Check Code Quality
         run: ./gradlew check --no-daemon
-        working-directory: ./asc-courses-api
 
       - name: Upload Test Results
         if: always()
