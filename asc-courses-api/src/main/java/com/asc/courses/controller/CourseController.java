@@ -28,7 +28,13 @@ public class CourseController {
 	public CourseController(CourseService courseService){
 		this.courseService = courseService;
 	}
-	
+
+	@PostMapping("/courses")
+	public ResponseEntity<Course> saveCourse(@RequestBody Course course){
+		Course savedCourse = courseService.saveCourse(course);
+		return ResponseEntity.ok(savedCourse);
+	}
+
 	@GetMapping("/courses/{courseId}")
 	public ResponseEntity<Course> getCourseById(@PathVariable Long courseId) {
 		Optional<Course> courseOptional = courseService.fetchCourseById(courseId);
@@ -39,10 +45,14 @@ public class CourseController {
 		}
 	}
 
-	@PostMapping("/courses")
-	public ResponseEntity<Course> saveCourse(@RequestBody Course course){
-		Course savedCourse = courseService.saveCourse(course);
-		return ResponseEntity.ok(savedCourse);
+	@GetMapping("/courses/code/{courseCode}")
+	public ResponseEntity<Course> getCourseByCode(@PathVariable String courseCode) {
+		Optional<Course> courseOptional = courseService.fetchCourseByCode(courseCode);
+		if(courseOptional.isPresent()){
+			return ResponseEntity.ok(courseOptional.get());
+		}else{
+			return ResponseEntity.notFound().build();
+		}
 	}
 
 	@GetMapping("/courses")

@@ -43,6 +43,14 @@ public class CourseService {
         }
     }
 
+    public Optional<Course> fetchCourseByCode(String code) {
+        try {
+            return courseRepository.findByCourseCode(code);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to fetch course by code: " + e.getMessage());
+        }
+    }
+
     @Transactional
     public boolean deleteCourse(Long id) {
         try {
