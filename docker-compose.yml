@@ -3,9 +3,26 @@ version: '3.8'
 services:
   mysql:
     extends:
-      file: ./docker/compose/mysql.yml
+      file: docker/compose/mysql.yml
       service: mysql
 
+  backend:
+    image: bose01/asc-courses:v1.0
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/coursedb
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+
+  frontend:
+    image: bose01/asc-courses-frontend:v.1.0
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
 
 volumes:
   mysql_data:

@@ -1,0 +1,28 @@
+# Ignore Gradle wrapper and build files
+.gradle/
+build/
+
+# Ignore IDE files and project-specific settings
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Ignore build output directories
+*.jar
+*.war
+*.ear
+
+# Ignore logs and temporary files
+*.log
+*.tmp
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore other common files and directories
+*.class
+*.swp
+*~.swp
+*.swo
