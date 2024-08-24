@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.asc.courses.controller.response.CourseResponse;
+import com.asc.courses.exceptions.CourseExistException;
 import com.asc.courses.model.Course;
-import com.asc.courses.service.CourseService;
+import com.asc.courses.service.CourseServiceImpl;
 
 
 @RestController
@@ -23,16 +25,35 @@ import com.asc.courses.service.CourseService;
 public class CourseController {
 	
 	@Autowired
-	private CourseService courseService;
+	private CourseServiceImpl courseService;
 
-	public CourseController(CourseService courseService){
+	public CourseController(CourseServiceImpl courseService){
 		this.courseService = courseService;
 	}
 
 	@PostMapping("/courses")
-	public ResponseEntity<Course> saveCourse(@RequestBody Course course){
-		Course savedCourse = courseService.saveCourse(course);
-		return ResponseEntity.ok(savedCourse);
+	public ResponseEntity<CourseResponse<Course>> saveCourse(@RequestBody Course course) {
+		// Validate RequestBody before calling service.
+		CourseResponse<Course> response;
+		try {
+			Course savedCourse = courseService.saveCourse(course);
+			response = new CourseResponse<Course>(
+				200, "Success", savedCourse
+			);
+			return ResponseEntity.ok(response);
+
+		} catch (CourseExistException e) {
+			response = new CourseResponse<Course>(
+				HttpStatus.CONFLICT.value(), e.getMessage(), null
+			);
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+		
+		} catch (RuntimeException e) {
+			response = new CourseResponse<Course>(
+				HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage(), null
+			);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
 	}
 
 	@GetMapping("/courses/{courseId}")
