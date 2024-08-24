@@ -3,62 +3,52 @@ package com.asc.courses.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
+import com.asc.courses.exceptions.CourseExistException;
 import com.asc.courses.model.Course;
-import com.asc.courses.repository.CourseRepository;
 
+/**
+ * Service interface for managing Course-related operations.
+ * Provides methods to save, fetch, and delete courses.
+ */
+public interface CourseService {
 
-@Service
-public class CourseService {
-    
-    private final CourseRepository courseRepository;
+    /**
+     * Saves a course in the repository.
+     * 
+     * @param course the course entity to be saved.
+     * @return the saved course entity.
+     * @throws CourseExistException if a course with the same code already exists.
+     */
+    Course saveCourse(Course course) throws CourseExistException;
 
-    public CourseService(CourseRepository courseRepository){
-        this.courseRepository = courseRepository;
-    }
+    /**
+     * Fetches all courses from the repository.
+     * 
+     * @return a list of all courses.
+     */
+    List<Course> fetchAllCourses();
 
-    public Course saveCourse(Course course){
-        try {
-            return courseRepository.save(course);
-        } catch (Exception e){
-            throw new RuntimeException("Failed to save course: " + e.getMessage());
-        }
-    }
+    /**
+     * Fetches a course by its unique identifier.
+     * 
+     * @param id the unique identifier of the course.
+     * @return an `Optional` containing the course if found, or empty if not found.
+     */
+    Optional<Course> fetchCourseById(Long id);
 
-    public List<Course> fetchAllCourses() {
-        try {
-            return courseRepository.findAll();
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to fetch all courses: " + e.getMessage());
-        }
-    }
+    /**
+     * Fetches a course by its unique code.
+     * 
+     * @param code the unique course code.
+     * @return an `Optional` containing the course if found, or empty if not found.
+     */
+    Optional<Course> fetchCourseByCode(String code);
 
-    public Optional<Course> fetchCourseById(Long id) {
-        try {
-            return courseRepository.findById(id);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to fetch course by ID: " + e.getMessage());
-        }
-    }
-
-    public Optional<Course> fetchCourseByCode(String code) {
-        try {
-            return courseRepository.findByCourseCode(code);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to fetch course by code: " + e.getMessage());
-        }
-    }
-
-    @Transactional
-    public boolean deleteCourse(Long id) {
-        try {
-            courseRepository.deleteById(id);
-            // On successfull deletion
-            return true;
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to delete course: " + e.getMessage());
-        }
-    }
+    /**
+     * Deletes a course by its unique identifier.
+     * 
+     * @param id the unique identifier of the course to be deleted.
+     * @return `true` if the course was successfully deleted, `false` otherwise.
+     */
+    boolean deleteCourse(Long id);
 }
