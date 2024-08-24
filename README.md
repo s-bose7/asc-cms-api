@@ -23,7 +23,7 @@ cd asc-courses-backend
 # Run the server
 ./gradlew bootRun
 ```
-After running the server one can test the APIs hosted at `http://localhost:8080/api/v1`. For more infomation on what kind of requests are allowed [see here](docs/api-docs.md).
+After running the server one can test the APIs hosted at `http://localhost:8080`. For more infomation on what kind of requests are allowed [see here](docs/api-docs.md).
 
 ## Using Docker compose
 Using docker compose to start the application. 
