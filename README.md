@@ -39,7 +39,7 @@ $ docker compose up -d
 Once all the containers are up and running, visit `http://localhost:5173`. This will take you to the web client.
 
 # Example Requests
-The payload is case sensitive, so please double-check the payload before sending a request.
+The payloads are case sensitive, so please double-check the payload before sending a request.
 
 #### Creating a Course
 
@@ -55,6 +55,10 @@ curl -X POST http://localhost:8080/api/v1/courses \
 ```
 
 #### Creating a Course instance
+
+A course instance or course delivery is created primarily based on the course code, though the actual JSON payload is different. First the client request the server with a course code, year and semester, the server verifies the course code,
+if valid, then the web client will sends a `POST` request with the following payload as request body. Otherwise the requests fails.
+
 ```c
 curl -X POST http://localhost:8080/api/v1/instances \
 -header "Content-Type: application/json" \
@@ -68,4 +72,39 @@ curl -X POST http://localhost:8080/api/v1/instances \
         "courseDescription": "This course provides an introduction to modern compilers."
     }
 }'
+```
+
+# Database schema overview
+
+```bash
+# Primary table to store information about courses
+
+mysql> describe courses; 
++--------------------+--------------+------+-----+---------+----------------+
+| Field              | Type         | Null | Key | Default | Extra          |
++--------------------+--------------+------+-----+---------+----------------+
+| id                 | bigint       | NO   | PRI | NULL    | auto_increment |
+| course_code        | varchar(255) | NO   | UNI | NULL    |                |
+| course_description | varchar(255) | YES  |     | NULL    |                |
+| course_title       | varchar(255) | NO   |     | NULL    |                |
++--------------------+--------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+```
+**Relation**: One to Many (1:N); A course can be part of many delivery.
+
+```bash
+# Table to store inforemation about course sessions
+
+mysql> describe session;
++----------------------+--------+------+-----+---------+----------------+
+| Field                | Type   | Null | Key | Default | Extra          |
++----------------------+--------+------+-----+---------+----------------+
+| semester_of_delivery | int    | NO   |     | NULL    |                |
+| year_of_delivery     | int    | NO   |     | NULL    |                |
+| course_id            | bigint | NO   | MUL | NULL    |                |
+| id                   | bigint | NO   | PRI | NULL    | auto_increment |
++----------------------+--------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
 ```
