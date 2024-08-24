@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import lombok.Data;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import jakarta.persistence.Entity;
@@ -18,6 +19,7 @@ import jakarta.persistence.Column;
 @Entity
 @Table(name = "courses")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Course implements Serializable {
