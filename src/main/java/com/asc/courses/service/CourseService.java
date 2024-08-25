@@ -1,9 +1,9 @@
 package com.asc.courses.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.asc.courses.exceptions.CourseExistException;
+import com.asc.courses.exceptions.CourseNotFoundException;
 import com.asc.courses.exceptions.InvalidCourseException;
 import com.asc.courses.model.Course;
 
@@ -18,7 +18,8 @@ public interface CourseService {
      * 
      * @param course the course entity to be saved.
      * @return the saved course entity.
-     * @throws CourseExistException if a course with the same code already exists.
+     * @throws CourseExistException 
+     * @throws InvalidCourseException 
      */
     Course saveCourse(Course course) throws CourseExistException, InvalidCourseException;
 
@@ -33,23 +34,26 @@ public interface CourseService {
      * Fetches a course by its unique identifier.
      * 
      * @param id the unique identifier of the course.
-     * @return an `Optional` containing the course if found, or empty if not found.
+     * @return The course if found, or empty if not found.
+     * @throws CourseNotFoundException
      */
-    Optional<Course> fetchCourseById(Long id);
+    Course fetchCourseById(Long id) throws CourseNotFoundException;
 
     /**
      * Fetches a course by its unique code.
      * 
      * @param code the unique course code.
-     * @return an `Optional` containing the course if found, or empty if not found.
+     * @return The course if found, or empty if not found.
+     * @throws CourseNotFoundException
      */
-    Optional<Course> fetchCourseByCode(String code);
+    Course fetchCourseByCode(String code) throws CourseNotFoundException;
 
     /**
      * Deletes a course by its unique identifier.
      * 
      * @param id the unique identifier of the course to be deleted.
-     * @return `true` if the course was successfully deleted, `false` otherwise.
+     * @return The name of course deleted
+     * @throws CourseNotFoundException
      */
-    boolean deleteCourse(Long id);
+    String deleteCourse(Long id) throws CourseNotFoundException;
 }
