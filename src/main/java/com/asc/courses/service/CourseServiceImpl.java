@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.asc.courses.model.Course;
 import com.asc.courses.exceptions.CourseExistException;
+import com.asc.courses.exceptions.CourseNotFoundException;
 import com.asc.courses.exceptions.InvalidCourseException;
 import com.asc.courses.repository.CourseRepository;
 
@@ -39,14 +40,16 @@ public class CourseServiceImpl implements CourseService {
             throw new InvalidCourseException("Course code is not valid: "+course.getCourseCode());
         }
         try {
-            Optional<Course> savedCourse = fetchCourseByCode(course.getCourseCode());
+            Optional<Course> savedCourse = courseRepository.findByCourseCode(course.getCourseCode());
             if(savedCourse.isPresent()){
                 throw new CourseExistException("Course already present with code: "+course.getCourseCode());
             }
             return courseRepository.save(course);
 
-        } catch (RuntimeException e) { 
-            throw new RuntimeException("Failed to save course: " + course.getCourseTitle());
+        } catch (CourseExistException courseExistException){
+            throw courseExistException;
+        } catch (Exception e) { 
+            throw new RuntimeException("Failed to save course: " + e.getMessage());
         }
     }
 
@@ -62,19 +65,33 @@ public class CourseServiceImpl implements CourseService {
 
 
     @Override
-    public Optional<Course> fetchCourseById(Long id) {
+    public Course fetchCourseById(Long id) throws CourseNotFoundException {
         try {
-            return courseRepository.findById(id);
+            Optional<Course> courseOptional = courseRepository.findById(id);
+            if(courseOptional.isPresent()){
+                return courseOptional.get();
+            } else {
+                throw new CourseNotFoundException("Course with id "+id+" not found");
+            }
+        } catch (CourseNotFoundException courseNotFoundException){
+            throw courseNotFoundException;
         } catch (Exception e) {
-            throw new RuntimeException("Failed to fetch course by ID: " + e.getMessage());
+            throw new RuntimeException("Failed to fetch course by id: " + e.getMessage());
         }
     }
 
 
     @Override
-    public Optional<Course> fetchCourseByCode(String code) {
+    public Course fetchCourseByCode(String code) throws CourseNotFoundException {
         try {
-            return courseRepository.findByCourseCode(code);
+            Optional<Course> courseOptional = courseRepository.findByCourseCode(code);
+            if(courseOptional.isPresent()){
+                return courseOptional.get();
+            } else {
+                throw new CourseNotFoundException("Course with code "+code+" not found");
+            }
+        } catch (CourseNotFoundException courseNotFoundException){
+            throw courseNotFoundException;
         } catch (Exception e) {
             throw new RuntimeException("Failed to fetch course by code: " + e.getMessage());
         }
@@ -83,11 +100,18 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional
-    public boolean deleteCourse(Long id) {
+    public String deleteCourse(Long id) throws CourseNotFoundException {
         try {
-            courseRepository.deleteById(id);
-            // On successfull deletion
-            return true;
+            Optional<Course> courseOptional = courseRepository.findById(id);
+            if (courseOptional.isPresent()){
+                String courseName = courseOptional.get().getCourseTitle();
+                courseRepository.deleteById(id);
+                return courseName;
+            } else {
+                throw new CourseNotFoundException("Course with ID "+id+" not found");
+            }
+        } catch (CourseNotFoundException courseNotFoundException){
+            throw courseNotFoundException;
         } catch (Exception e) {
             throw new RuntimeException("Failed to delete course: " + e.getMessage());
         }

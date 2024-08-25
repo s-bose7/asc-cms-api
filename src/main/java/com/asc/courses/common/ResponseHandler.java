@@ -38,4 +38,11 @@ public class ResponseHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 
+    public static <T> ResponseEntity<CourseResponse<T>> handleNotFoundException(String message){
+        CourseResponse<T> response = new CourseResponse<T>(
+            HttpStatus.NOT_FOUND.value(), message, null
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
 }
