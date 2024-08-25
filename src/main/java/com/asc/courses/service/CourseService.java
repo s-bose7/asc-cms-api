@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.asc.courses.exceptions.CourseExistException;
+import com.asc.courses.exceptions.InvalidCourseException;
 import com.asc.courses.model.Course;
 
 /**
@@ -19,7 +20,7 @@ public interface CourseService {
      * @return the saved course entity.
      * @throws CourseExistException if a course with the same code already exists.
      */
-    Course saveCourse(Course course) throws CourseExistException;
+    Course saveCourse(Course course) throws CourseExistException, InvalidCourseException;
 
     /**
      * Fetches all courses from the repository.

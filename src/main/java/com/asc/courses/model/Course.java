@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,12 +30,18 @@ public class Course implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @NotBlank
+    @Size(max = 60, min = 30)
     @Column(name = "course_title", nullable = false)
     private String courseTitle;
     
+    @NotBlank
+    @Size(max = 10, min = 5)
     @Column(name = "course_code", nullable = false, unique = true)
     private String courseCode;
 
+    @NotBlank
+    @Size(max = 300)
     @Column(name = "course_description")
     private String courseDescription;
 

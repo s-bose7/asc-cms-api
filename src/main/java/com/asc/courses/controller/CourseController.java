@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,10 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.asc.courses.common.ResponseHandler;
 import com.asc.courses.controller.response.CourseResponse;
 import com.asc.courses.exceptions.CourseExistException;
+import com.asc.courses.exceptions.InvalidCourseException;
 import com.asc.courses.model.Course;
 import com.asc.courses.service.CourseServiceImpl;
+
+import jakarta.validation.Valid;
 
 
 @RestController
@@ -32,27 +37,25 @@ public class CourseController {
 	}
 
 	@PostMapping("/courses")
-	public ResponseEntity<CourseResponse<Course>> saveCourse(@RequestBody Course course) {
-		// Validate RequestBody before calling service.
-		CourseResponse<Course> response;
-		try {
+	public ResponseEntity<CourseResponse<Course>> saveCourse(
+		@RequestBody @Valid Course course, BindingResult result
+	) {
+		if (result.hasErrors()) {
+			String message = result.getFieldError().getDefaultMessage();
+			return ResponseHandler.handleInvalidCourseException(message);
+
+		}try {
 			Course savedCourse = courseService.saveCourse(course);
-			response = new CourseResponse<Course>(
-				200, "Success", savedCourse
-			);
-			return ResponseEntity.ok(response);
+			return ResponseHandler.handleSuccess(savedCourse, "Success");
 
 		} catch (CourseExistException e) {
-			response = new CourseResponse<Course>(
-				HttpStatus.CONFLICT.value(), e.getMessage(), null
-			);
-			return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
-		
+			return ResponseHandler.handleCourseExistException(e.getMessage());
+
+		} catch (InvalidCourseException e) {
+			return ResponseHandler.handleInvalidCourseException(e.getMessage());
+
 		} catch (RuntimeException e) {
-			response = new CourseResponse<Course>(
-				HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage(), null
-			);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+			return ResponseHandler.handleInternalServerErrorException(e.getMessage());
 		}
 	}
 
