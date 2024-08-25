@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   client:
-    image: bose01/asc-courses-frontend:v.1.0
+    image: bose01/asc-courses-web-client:v1.1
     ports:
       - "5173:80"
     depends_on:
