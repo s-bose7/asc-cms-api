@@ -65,7 +65,7 @@ curl -X POST http://localhost:8080/api/v1/instances \
 -data '{
     "year": 2024,
     "semester": 5,
-    "Course": {
+    "course": {
         "id": 2,
         "courseTitle": "Introduction to Compiler Design",
         "courseCode": "CS 101",
@@ -84,9 +84,9 @@ mysql> describe courses;
 | Field              | Type         | Null | Key | Default | Extra          |
 +--------------------+--------------+------+-----+---------+----------------+
 | id                 | bigint       | NO   | PRI | NULL    | auto_increment |
-| course_code        | varchar(255) | NO   | UNI | NULL    |                |
-| course_description | varchar(255) | YES  |     | NULL    |                |
-| course_title       | varchar(255) | NO   |     | NULL    |                |
+| course_code        | varchar(10)  | NO   | UNI | NULL    |                |
+| course_description | varchar(300) | YES  |     | NULL    |                |
+| course_title       | varchar(60)  | NO   |     | NULL    |                |
 +--------------------+--------------+------+-----+---------+----------------+
 4 rows in set (0.00 sec)
 
@@ -100,10 +100,10 @@ mysql> describe session;
 +----------------------+--------+------+-----+---------+----------------+
 | Field                | Type   | Null | Key | Default | Extra          |
 +----------------------+--------+------+-----+---------+----------------+
-| semester_of_delivery | int    | NO   |     | NULL    |                |
-| year_of_delivery     | int    | NO   |     | NULL    |                |
-| course_id            | bigint | NO   | MUL | NULL    |                |
 | id                   | bigint | NO   | PRI | NULL    | auto_increment |
+| course_id            | bigint | NO   | MUL | NULL    |                |
+| year_of_delivery     | int    | NO   |     | NULL    |                |
+| semester_of_delivery | int    | NO   |     | NULL    |                |
 +----------------------+--------+------+-----+---------+----------------+
 4 rows in set (0.00 sec)
 
