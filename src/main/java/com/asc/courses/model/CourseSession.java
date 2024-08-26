@@ -2,6 +2,9 @@ package com.asc.courses.model;
 
 import java.io.Serializable;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -29,6 +32,7 @@ public class CourseSession implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Course course;
 
     @Column(name = "year_of_delivery", nullable = false)
