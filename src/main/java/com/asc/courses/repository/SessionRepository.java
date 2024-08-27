@@ -31,7 +31,7 @@ public interface SessionRepository extends JpaRepository<CourseSession, Long> {
      * @param id the ID of the course.
      * @return an Optional containing the CourseSession entity matching the criteria, or empty if not found.
      */
-    Optional<CourseSession> findByYearAndSemesterAndCourseId(int year, int semester, int id);
+    Optional<CourseSession> findByYearAndSemesterAndCourseId(int year, int semester, long id);
 
     /**
      * Delete a CourseSession entity by the year of delivery, semester, and ID.
@@ -40,5 +40,5 @@ public interface SessionRepository extends JpaRepository<CourseSession, Long> {
      * @param semester the semester in which the course session is delivered.
      * @param id the ID of the course to be deleted.
      */
-    void deleteByYearAndSemesterAndId(int year, int semester, int id);
+    void deleteByYearAndSemesterAndId(int year, int semester, long id);
 }
