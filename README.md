@@ -31,7 +31,7 @@ Using docker compose to start the application.
 ```bash
 $ docker compose up -d
 [+] Running 3/3
- ✔ Container b6d00d681da5_mysql             Started          0.4s 
+ ✔ Container asc-cms-api-db         Started          0.4s 
  ✔ Container asc-cms-api-server-1   Started          0.8s 
  ✔ Container asc-cms-api-client-1   Started          1.3s 
 
