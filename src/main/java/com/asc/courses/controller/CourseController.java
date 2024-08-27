@@ -49,7 +49,7 @@ public class CourseController {
 			return ResponseHandler.handleSuccess(savedCourse, "Success");
 			
 		} catch (CourseExistException e) {
-			return ResponseHandler.handleCourseExistException(e.getMessage());
+			return ResponseHandler.handleContentExistException(e.getMessage());
 		} catch (InvalidCourseException e) {
 			return ResponseHandler.handleInvalidCourseException(e.getMessage());
 		} catch (RuntimeException e) {

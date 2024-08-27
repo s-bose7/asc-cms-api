@@ -23,7 +23,7 @@ public class ResponseHandler {
     }
 
 
-    public static <T> ResponseEntity<CourseResponse<T>> handleCourseExistException(String message){
+    public static <T> ResponseEntity<CourseResponse<T>> handleContentExistException(String message){
         CourseResponse<T> response = new CourseResponse<T>(
             HttpStatus.CONFLICT.value(), message, null
         );
