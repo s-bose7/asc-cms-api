@@ -74,3 +74,11 @@ jobs:
         with:
           name: test-coverage-report
           path: ./build/reports/jacoco/test/html/
+      
+      - name: Dispatch Repository Event
+        if: github.ref == 'refs/heads/main'
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.REPO_DISPATCH_TOKEN }}
+          repository: s-bose7/asc-cms-api
+          event-type: docker-image-build-and-push

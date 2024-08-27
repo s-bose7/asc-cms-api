@@ -1,6 +1,6 @@
-# asc-cources
+# asc-cms-server
 
-This is a open source backend server for a course management system. The front-end application can be found [here](https://github.com/s-bose7/asc-courses-frontend). The application strictly follows [MVC](docs/asc-mvc-architecture.png) architectural pattern, and uses RESTFul APIs for exchanging information from/to the client. 
+This is an open-source backend server for a Course Management System (CMS). The web client can be found [here](https://github.com/s-bose7/asc-cms-web-client). The application strictly follows [MVC](docs/asc-mvc-architecture.png) architectural pattern, and utilizes RESTful APIs for exchanging information between the server and client. 
 
 # Prerequisite
 
@@ -76,7 +76,7 @@ curl -X POST http://localhost:8080/api/v1/instances \
 
 # Database schema overview
 
-```bash
+```
 # Primary table to store information about courses
 
 mysql> describe courses; 
@@ -93,7 +93,7 @@ mysql> describe courses;
 ```
 **Relation**: One to Many (1:N); A course can be part of many delivery.
 
-```bash
+```
 # Table to store inforemation about course sessions
 
 mysql> describe session;
