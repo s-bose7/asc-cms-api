@@ -19,7 +19,7 @@ jobs:
           - 3306:3306
         env:
           MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: testdb
+          MYSQL_DATABASE: test_db
         options: >-
           --health-cmd "mysqladmin ping"
           --health-interval 10s
