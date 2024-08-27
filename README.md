@@ -12,10 +12,10 @@ This is a open source backend server for a course management system. The front-e
 ## Running locally
 ```bash
 # Get the code
-git clone https://github.com/s-bose7/asc-courses-backend.git
+git clone https://github.com/s-bose7/asc-cms-api.git
 
 # Move to project folder
-cd asc-courses-backend
+cd asc-cms-api
 
 # Build the application
 ./gradlew clean build
@@ -32,8 +32,8 @@ Using docker compose to start the application.
 $ docker compose up -d
 [+] Running 3/3
  ✔ Container b6d00d681da5_mysql             Started          0.4s 
- ✔ Container asc-courses-backend-server-1   Started          0.8s 
- ✔ Container asc-courses-backend-client-1   Started          1.3s 
+ ✔ Container asc-cms-api-server-1   Started          0.8s 
+ ✔ Container asc-cms-api-client-1   Started          1.3s 
 
 ```
 Once all the containers are up and running, visit `http://localhost:5173`. This will take you to the web client.
