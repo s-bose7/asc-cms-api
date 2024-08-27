@@ -31,7 +31,7 @@ public class Course implements Serializable {
     private Long id;
     
     @NotBlank
-    @Size(max = 60, min = 30)
+    @Size(max = 60, min = 10)
     @Column(name = "course_title", nullable = false)
     private String courseTitle;
     
