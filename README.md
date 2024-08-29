@@ -87,6 +87,7 @@ mysql> describe courses;
 | course_code        | varchar(10)  | NO   | UNI | NULL    |                |
 | course_description | varchar(300) | YES  |     | NULL    |                |
 | course_title       | varchar(60)  | NO   |     | NULL    |                |
+| created_at         | date         | NO   |     | NULL    |                |
 +--------------------+--------------+------+-----+---------+----------------+
 4 rows in set (0.00 sec)
 
