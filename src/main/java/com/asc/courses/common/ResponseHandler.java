@@ -18,7 +18,9 @@ public class ResponseHandler {
     private static Map<String, Object> getRequestMetaData(HttpServletRequest request) {
         Map<String, Object> metadataMapping = new HashMap<>();
         // Populate request specific info
+        metadataMapping.put("protocol", request.getProtocol());
         metadataMapping.put("requestID", request.getRequestId());
+        metadataMapping.put("requestMethod", request.getMethod());
         metadataMapping.put("endpoint", request.getRequestURI());
         metadataMapping.put("requestURL", request.getRequestURL().toString());
         // Return metadata specific to endpoint
