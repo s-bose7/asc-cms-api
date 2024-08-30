@@ -69,7 +69,8 @@ curl -X POST http://localhost:8080/api/v1/instances \
         "id": 2,
         "courseTitle": "Introduction to Compiler Design",
         "courseCode": "CS 101",
-        "courseDescription": "This course provides an introduction to modern compilers."
+        "courseDescription": "This course provides an introduction to modern compilers",
+        "createdAt": "2024-08-24"
     }
 }'
 ```
