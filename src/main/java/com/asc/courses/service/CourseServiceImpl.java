@@ -40,6 +40,7 @@ public class CourseServiceImpl implements CourseService {
             throw new InvalidCourseException("Course code is not valid: "+course.getCourseCode());
         }
         try {
+            course.setCourseCode(course.getCourseCode().strip());
             Optional<Course> savedCourse = courseRepository.findByCourseCode(course.getCourseCode());
             if(savedCourse.isPresent()){
                 throw new CourseExistException("Course already present with code: "+course.getCourseCode());
