@@ -1,6 +1,8 @@
 package com.asc.courses.controller;
 
 import java.util.List;
+
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
@@ -33,6 +35,9 @@ public class CourseController {
 	@Autowired
 	private CourseServiceImpl courseService;
 
+	@Autowired
+	HttpServletRequest request;
+
 	public CourseController(CourseServiceImpl courseService){
 		this.courseService = courseService;
 	}
@@ -42,18 +47,18 @@ public class CourseController {
 		if (result.hasErrors()) {
 			FieldError error = result.getFieldError();
 			String message = error.getField() +": "+ error.getDefaultMessage();
-			return ResponseHandler.handleInvalidCourseException(message);
+			return ResponseHandler.handleInvalidCourseException(message, request);
 		}
 		try {
 			Course savedCourse = courseService.saveCourse(course);
-			return ResponseHandler.handleSuccess(savedCourse, "Success");
+			return ResponseHandler.handleSuccess(savedCourse, request);
 			
 		} catch (CourseExistException e) {
-			return ResponseHandler.handleContentExistException(e.getMessage());
+			return ResponseHandler.handleContentExistException(e.getMessage(), request);
 		} catch (InvalidCourseException e) {
-			return ResponseHandler.handleInvalidCourseException(e.getMessage());
+			return ResponseHandler.handleInvalidCourseException(e.getMessage(), request);
 		} catch (RuntimeException e) {
-			return ResponseHandler.handleInternalServerErrorException(e.getMessage());
+			return ResponseHandler.handleInternalServerErrorException(e.getMessage(), request);
 		}
 	}
 
@@ -61,12 +66,12 @@ public class CourseController {
 	public ResponseEntity<CourseResponse<Course>> getCourseById(@PathVariable Long courseId) {
 		try {
 			Course course = courseService.fetchCourseById(courseId);
-			return ResponseHandler.handleSuccess(course, "Success");
+			return ResponseHandler.handleSuccess(course, request);
 
 		} catch (CourseNotFoundException e) {
-			return ResponseHandler.handleNotFoundException(e.getMessage());
+			return ResponseHandler.handleNotFoundException(e.getMessage(), request);
 		} catch (RuntimeException e) {
-			return ResponseHandler.handleInternalServerErrorException(e.getMessage());
+			return ResponseHandler.handleInternalServerErrorException(e.getMessage(), request);
 		}
 	}
 
@@ -74,12 +79,12 @@ public class CourseController {
 	public ResponseEntity<CourseResponse<Course>> getCourseByCode(@PathVariable String courseCode) {
 		try {
 			Course course = courseService.fetchCourseByCode(courseCode);
-			return ResponseHandler.handleSuccess(course, "Success");
+			return ResponseHandler.handleSuccess(course, request);
 
 		} catch (CourseNotFoundException e) {
-			return ResponseHandler.handleNotFoundException(e.getMessage());
+			return ResponseHandler.handleNotFoundException(e.getMessage(), request);
 		} catch (RuntimeException e) {
-			return ResponseHandler.handleInternalServerErrorException(e.getMessage());
+			return ResponseHandler.handleInternalServerErrorException(e.getMessage(), request);
 		}
 	}
 
@@ -87,9 +92,9 @@ public class CourseController {
 	public ResponseEntity<CourseResponse<List<Course>>> getAllCourses() {
         try {
 			List<Course> courses = courseService.fetchAllCourses();
-        	return ResponseHandler.handleSuccess(courses, "Success");
+        	return ResponseHandler.handleSuccess(courses, request);
 		} catch (RuntimeException e) {
-			return ResponseHandler.handleInternalServerErrorException(e.getMessage());
+			return ResponseHandler.handleInternalServerErrorException(e.getMessage(), request);
 		}
     }
 
@@ -98,12 +103,12 @@ public class CourseController {
         try {
 			String courseName = courseService.deleteCourse(courseId);
 			return ResponseHandler.handleSuccess(
-				courseName +" has been deleted successfully", "Success"
+				courseName +" has been deleted successfully", request
 			);
 		} catch (CourseNotFoundException e) {
-			return ResponseHandler.handleNotFoundException(e.getMessage());
+			return ResponseHandler.handleNotFoundException(e.getMessage(), request);
 		} catch (RuntimeException e) {
-			return ResponseHandler.handleInternalServerErrorException(e.getMessage());
+			return ResponseHandler.handleInternalServerErrorException(e.getMessage(), request);
 		}
     }
 

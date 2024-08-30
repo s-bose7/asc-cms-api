@@ -1,5 +1,6 @@
 package com.asc.courses.controller.response;
 
+import java.util.Map;
 
 public class CourseResponse<T> extends ApiResponse<T> {
     
@@ -8,8 +9,8 @@ public class CourseResponse<T> extends ApiResponse<T> {
         super();
     }
 
-    public CourseResponse(int status, String message, T data){
-        super(status, message, data);
+    public CourseResponse(int status, String message, T data, Map<String, Object> metadata){
+        super(status, message, data, metadata);
     }
 
 }

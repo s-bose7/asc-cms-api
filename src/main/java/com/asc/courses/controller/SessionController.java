@@ -20,6 +20,8 @@ import com.asc.courses.exceptions.SessionExistException;
 import com.asc.courses.model.CourseSession;
 import com.asc.courses.service.SessionServiceImpl;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 
 @RestController
 @RequestMapping("/api/v1")
@@ -27,6 +29,9 @@ public class SessionController {
 
     @Autowired
 	private SessionServiceImpl sessionService;
+
+    @Autowired
+	HttpServletRequest request;
 
     public SessionController(SessionServiceImpl sessionService) {
 		this.sessionService = sessionService;
@@ -36,12 +41,12 @@ public class SessionController {
     public ResponseEntity<CourseResponse<CourseSession>> saveCourseSession(@RequestBody CourseSession courseSession) {
         try {
             CourseSession session = sessionService.saveSession(courseSession);
-            return ResponseHandler.handleSuccess(session, "Success");
+            return ResponseHandler.handleSuccess(session, request);
 
         } catch (SessionExistException e) {
-            return ResponseHandler.handleContentExistException(e.getMessage());
+            return ResponseHandler.handleContentExistException(e.getMessage(), request);
         }catch (RuntimeException e) {
-            return ResponseHandler.handleInternalServerErrorException(e.getMessage());
+            return ResponseHandler.handleInternalServerErrorException(e.getMessage(), request);
         } 
         
     }
@@ -52,11 +57,11 @@ public class SessionController {
         try{
             Optional<List<CourseSession>> sessionsOptional = sessionService.fetchCourseSessionsByYearAndSemester(year, semester);
             if(sessionsOptional.isPresent()){
-                return ResponseHandler.handleSuccess(sessionsOptional.get(), "Success");
+                return ResponseHandler.handleSuccess(sessionsOptional.get(), request);
             }
-            return ResponseHandler.handleNotFoundException("No Sessions Found");
+            return ResponseHandler.handleNotFoundException("No Sessions Found", request);
         } catch (RuntimeException e) {
-            return ResponseHandler.handleInternalServerErrorException(e.getMessage());
+            return ResponseHandler.handleInternalServerErrorException(e.getMessage(), request);
         }
     }
 
@@ -66,11 +71,11 @@ public class SessionController {
         try {
             Optional<CourseSession> sessionOptional = sessionService.fetchCourseSessionByYearSemesterAndCourseId(year, semester, id);
             if (sessionOptional.isPresent()) {
-                return ResponseHandler.handleSuccess(sessionOptional.get(), "Success");
+                return ResponseHandler.handleSuccess(sessionOptional.get(), request);
             }
-            return ResponseHandler.handleNotFoundException("No Sessions Found");
+            return ResponseHandler.handleNotFoundException("No Sessions Found", request);
         } catch (RuntimeException e){
-            return ResponseHandler.handleInternalServerErrorException(e.getMessage());
+            return ResponseHandler.handleInternalServerErrorException(e.getMessage(), request);
         }
         
     }
@@ -82,12 +87,12 @@ public class SessionController {
             boolean deletionStatus = sessionService.deleteCourseSession(year, semester, id);
             if (deletionStatus) {
                 return ResponseHandler.handleSuccess(
-                    "Course with ID " + id + " has been deleted from sessions successfully", "Success"
+                    "Course with ID " + id + " has been deleted from sessions successfully", request
                 );
             }
-            return ResponseHandler.handleNotFoundException("No Course with ID " + id + " found for deletion");
+            return ResponseHandler.handleNotFoundException("No Course with ID "+id+" found for deletion", request);
         } catch (RuntimeException e){
-            return ResponseHandler.handleInternalServerErrorException(e.getMessage());
+            return ResponseHandler.handleInternalServerErrorException(e.getMessage(), request);
         }
     }
 }
