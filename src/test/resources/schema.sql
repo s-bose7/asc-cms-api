@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXIST courses (
     course_code varchar(10) not null,
     course_title varchar(60) not null,
     course_description varchar(300) not null,
+    created_at Date not null,
     primary key (id)
 )
 
