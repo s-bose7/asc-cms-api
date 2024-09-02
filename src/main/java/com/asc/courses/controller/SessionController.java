@@ -18,7 +18,7 @@ import com.asc.courses.common.ResponseHandler;
 import com.asc.courses.controller.response.CourseResponse;
 import com.asc.courses.exceptions.SessionExistException;
 import com.asc.courses.model.CourseSession;
-import com.asc.courses.service.SessionServiceImpl;
+import com.asc.courses.service.SessionService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -28,12 +28,12 @@ import jakarta.servlet.http.HttpServletRequest;
 public class SessionController {
 
     @Autowired
-	private SessionServiceImpl sessionService;
+	private SessionService sessionService;
 
     @Autowired
 	HttpServletRequest request;
 
-    public SessionController(SessionServiceImpl sessionService) {
+    public SessionController(SessionService sessionService) {
 		this.sessionService = sessionService;
 	}
 

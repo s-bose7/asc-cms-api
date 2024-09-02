@@ -24,7 +24,7 @@ import com.asc.courses.exceptions.CourseExistException;
 import com.asc.courses.exceptions.CourseNotFoundException;
 import com.asc.courses.exceptions.InvalidCourseException;
 import com.asc.courses.model.Course;
-import com.asc.courses.service.CourseServiceImpl;
+import com.asc.courses.service.CourseService;
 
 
 
@@ -33,12 +33,12 @@ import com.asc.courses.service.CourseServiceImpl;
 public class CourseController {
 	
 	@Autowired
-	private CourseServiceImpl courseService;
+	private CourseService courseService;
 
 	@Autowired
 	HttpServletRequest request;
 
-	public CourseController(CourseServiceImpl courseService){
+	public CourseController(CourseService courseService){
 		this.courseService = courseService;
 	}
 
