@@ -1,4 +1,4 @@
-INSERT INTO courses (course_title, course_code, course_description, created_at) VALUES
+INSERT INTO course (course_title, course_code, course_description, created_at) VALUES
 ("Introduction to Computer Programming", "CS 102", "A fundamental guide on how to write computer programs with Java", NOW()),
 ("Data Structures and Algorithms", "CS 201", "An in-depth study of data structures and their associated algorithms", NOW()),
 ("Operating Systems", "CS 301", "Essentials of operating systems, focusing on process management and memory management", NOW()),
